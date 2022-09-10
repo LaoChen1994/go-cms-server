@@ -38,8 +38,6 @@ func AddTag(c *gin.Context) {
 	err := c.BindJSON(&tag)
 
 	if err != nil {
-		fmt.Println(err)
-
 		c.JSON(e.INVALID_PARAMS, gin.H{
 			"msg": e.GetMsg(e.INVALID_PARAMS),
 		})
@@ -56,7 +54,7 @@ func AddTag(c *gin.Context) {
 	valid.Range(tag.State, 0, 1, "state").Message("状态只允许0或1")
 
 	if !valid.HasErrors() {
-		if models.ExistTagByName(tag.Name) {
+		if isExist := models.ExistTagByName(&tag); isExist {
 			c.JSON(e.ERROR_EXIST_TAG, gin.H{
 				"msg": e.GetMsg(e.ERROR_NOT_EXIST_TAG),
 			})

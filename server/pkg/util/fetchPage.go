@@ -12,7 +12,7 @@ type PageInfo struct {
 
 func FetchPage(c *gin.Context) (pageInfo *PageInfo) {
 	page := StringToInt(c.Query("page"), 1)
-	pageSize := setting.PageSize
+	pageSize := StringToInt(c.Query("size"), setting.PageSize)
 
 	pageInfo = &PageInfo{
 		Limit:  pageSize,

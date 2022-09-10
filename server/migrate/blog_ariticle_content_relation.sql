@@ -1,4 +1,4 @@
-CREATE TABLE `blog_content_article`
+CREATE TABLE IF NOT EXISTS `blog_article_tag`
 (
     `id`         int(10) not null auto_increment comment '关系表id',
     `content_id` int(10) not null comment '文章id',
@@ -10,4 +10,7 @@ CREATE TABLE `blog_content_article`
     key content (`content_id`),
     key tag (`tag_id`)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
+  DEFAULT CHARSET = utf8;
+
+ALTER TABLE `blog_article_tag`
+    ADD created_id int(10) not null;

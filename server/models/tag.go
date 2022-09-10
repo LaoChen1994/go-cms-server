@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"pd-go-server/pkg/setting"
 	"time"
 )
 
@@ -11,12 +10,8 @@ type Tag struct {
 	ID        uint   `gorm:"primary key" gorm:"column id" json:"id"`
 	Name      string `gorm:"column:name" json:"name"`
 	ParentId  int    `gorm:"column:parent_id" json:"parent_id"`
-	CreatedId uint   `gorm:"column:author" json:"author" `
+	CreatedId uint   `gorm:"column:created_id" json:"created_id" `
 	State     uint   `gorm:"column:state" json:"state"`
-}
-
-func (Tag) TableName() string {
-	return fmt.Sprintf("%s%s", setting.DatabaseConf.Prefix, "tag")
 }
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
@@ -26,28 +21,34 @@ func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {
 	return
 }
 
-func GetTagTotal(maps interface{}) (count int) {
-	if err := DB.Model(&Tag{}).Where(maps).Count(&count).Error; err != nil {
+func GetTagTotal(maps interface{}) (count *int64) {
+	if err := DB.Model(&Tag{}).Where(maps).Count(count).Error; err != nil {
 		fmt.Println("标签数量查询错误", err)
 	}
 
 	return
 }
 
-func ExistTagByName(name string) bool {
-	var tag Tag
+func ExistTagByName(tag *Tag) (exist bool) {
+	exist = false
 
-	DB.Select("id").Where("name = ?", name).First(&tag)
+	DB.Select("id").Where("name = ?", tag.Name).First(&tag)
 
 	if tag.ID > 0 {
-		return true
+		exist = true
+		return
 	}
 
-	return false
+	return
 }
 
 func ExistTagById(id int64) bool {
 	var tag Tag
+
+	if id <= 0 {
+		return false
+	}
+
 	res := DB.Where("id = ?", id).First(&tag)
 	if res.Error == nil {
 		if res.RowsAffected > 0 {
@@ -58,27 +59,23 @@ func ExistTagById(id int64) bool {
 	return false
 }
 
-func CreateTag(tag *Tag) error {
+func CreateTag(tag *Tag) (err error) {
+	err = nil
+
 	tag.CreatedAt = time.Now()
 	tag.UpdatedAt = time.Now()
 
-	fmt.Println("tag =>", tag)
-	fmt.Println("tag =>", tag.Name)
-	fmt.Println("tag =>", tag.State)
-	fmt.Println("createdId =>", tag.CreatedId)
+	res := DB.Omit("ID").Create(&tag)
 
-	if err := DB.Model(&Tag{}).Create(&tag).Error; err != nil {
-		return err
+	if err = res.Error; err != nil {
+		return
 	}
 
-	return nil
+	return
 }
 
 func UpdateTag(tag *Tag) (effect int64, err error) {
 	tag.UpdatedAt = time.Now()
-
-	fmt.Println(tag)
-
 	result := DB.Model(&tag).Where("id = ?", tag.ID).Updates(&tag)
 
 	err = result.Error

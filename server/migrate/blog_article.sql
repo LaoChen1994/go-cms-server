@@ -12,3 +12,6 @@ CREATE TABLE if not exists `blog_article`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='文章管理';
+
+ALTER TABLE `blog_article`
+    CHANGE author created_id int(10) unsigned not null comment '创建人';

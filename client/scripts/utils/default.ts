@@ -51,6 +51,15 @@ export const getDefaultTsRules = (useEsbuild: boolean = false) => {
           plugins: [
             "@babel/plugin-transform-runtime",
             "@babel/plugin-syntax-dynamic-import",
+            [
+              "babel-plugin-import",
+              {
+                libraryName: '@arco-design/web-react',
+                libraryDirectory: 'es',
+                camel2DashComponentName: false,
+                style: true, // 样式按需加载
+              },
+            ],
           ],
           cacheDirectory: true,
         },

@@ -14,3 +14,6 @@ ALTER TABLE `blog_tag`
     add author int(10) unsigned;
 ALTER TABLE `blog_tag`
     add state tinyint not null;
+
+ALTER TABLE `blog_tag`
+    CHANGE "author" "created_id" int unsigned not null;

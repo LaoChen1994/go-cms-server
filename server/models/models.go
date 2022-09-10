@@ -3,12 +3,17 @@ package models
 import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+	"gorm.io/gorm/schema"
 	"pd-go-server/pkg/setting"
 	"time"
 )
 
 var DB *gorm.DB
+
+var tx *gorm.DB = nil
 
 type Model struct {
 	ID        uint       `gorm:"primary_key" gorm:"column:id" json:"id"`
@@ -21,18 +26,35 @@ func init() {
 	conf := setting.DatabaseConf
 	var err error
 
-	DB, err = gorm.Open(conf.DatabaseType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", conf.User, conf.Password, conf.Host, conf.Name))
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", conf.User, conf.Password, conf.Host, conf.Name)
+
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			TablePrefix:   setting.DatabaseConf.Prefix,
+			SingularTable: true,
+		},
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 
 	if err != nil {
 		fmt.Println("db open is error", err)
 	}
-
-	DB.SingularTable(true)
-	DB.LogMode(true)
-	DB.DB().SetMaxIdleConns(50)
-	DB.DB().SetMaxIdleConns(50)
 }
 
-func close() {
-	DB.Close()
+func GetDB() *gorm.DB {
+	if tx != nil {
+		return tx
+	}
+
+	return DB
+}
+
+func UseTransaction(txDb *gorm.DB) {
+	if txDb != nil {
+		tx = txDb
+	}
+}
+
+func TransactionEnd() {
+	tx = nil
 }

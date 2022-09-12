@@ -13,5 +13,9 @@ CREATE TABLE if not exists `blog_article`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='文章管理';
 
+create index `author_index`
+    on blog_article (created_id, state)
+    comment '按照作者进行查询';
+
 ALTER TABLE `blog_article`
     CHANGE author created_id int(10) unsigned not null comment '创建人';

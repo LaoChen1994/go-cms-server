@@ -61,6 +61,22 @@ func GetTagsByArticleId(limit int, offset int, articleId uint) (tags *[]Tag, err
 	return
 }
 
+func GetContentTagsByArticleId(limit int, offset int, articleId uint) (data []ContentTag, err error) {
+	err = DB.Model(&ContentTag{}).Limit(limit).Offset(offset).Where("content_id = ?", articleId).Find(&data).Error
+	return
+}
+
+func GetTagsCountByArticleId(articleId uint) (count int64) {
+
+	DB.Model(&ContentTag{}).Where("content_id = ?", articleId).Count(&count)
+
+	return
+}
+
+func DeleteContentTagByIds(contentTag *[]ContentTag) error {
+	return DB.Model(&ContentTag{}).Delete(contentTag).Error
+}
+
 func GetArticlesByTag(limit int, offset int, tagId uint) (articles *[]ContentTag, err error) {
 	err = nil
 

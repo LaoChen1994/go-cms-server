@@ -1,6 +1,7 @@
 package setting
 
 import (
+	"fmt"
 	"gopkg.in/ini.v1"
 	"log"
 	"time"
@@ -25,9 +26,10 @@ var (
 	PageSize     int
 	JwtSecret    string
 	DatabaseConf *SqlConf
+	CorsAllow    []string
 )
 
-func init() {
+func Init() {
 	t, err := ini.Load("conf/app.ini")
 
 	if err != nil {
@@ -57,6 +59,7 @@ func loadApp() {
 
 	PageSize = app.Key("PAGE_SIZE").MustInt(10)
 	JwtSecret = app.Key("JWT_SECRET").MustString("")
+	fmt.Println("ALLOW[]", app.Key("ALLOW[]"))
 
 	if JwtSecret == "" {
 		panic("jwt secret cannot be empty")

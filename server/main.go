@@ -3,11 +3,15 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"pd-go-server/models"
 	"pd-go-server/pkg/setting"
 	"pd-go-server/routers"
 )
 
 func main() {
+	setting.Init()
+	models.Init()
+
 	// 创建一个Gin的路由中间件
 	router := routers.InitRouter()
 

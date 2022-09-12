@@ -12,3 +12,17 @@ create table if not exists `blog_user`
 
 ALTER TABLE `blog_user`
     ADD `updated_at` datetime default current_timestamp comment '用户更新时间';
+
+alter table blog_user
+    change username account varchar(255) not null comment '账户名';
+
+alter table blog_user
+    add nickname varchar(255) null comment '昵称';
+
+alter table blog_user
+    add email varchar(255) not null comment '邮箱地址';
+
+create index nickname_idx
+    on blog_user (account, nickname)
+    comment '用户索引';
+

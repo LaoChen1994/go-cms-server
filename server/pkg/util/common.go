@@ -1,6 +1,8 @@
 package util
 
 import (
+	"crypto/md5"
+	"fmt"
 	"strconv"
 )
 
@@ -32,4 +34,10 @@ func ToString(val interface{}, defaultVal string) (newVal string) {
 	}
 
 	return defaultVal
+}
+
+func MD5Cypto(str string) string {
+	bytes := []byte(str)
+
+	return fmt.Sprintf("%x", md5.Sum(bytes))
 }

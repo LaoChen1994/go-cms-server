@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"pd-go-server/middleware"
 	"pd-go-server/pkg/setting"
+	"pd-go-server/routers/api/open"
 	"pd-go-server/routers/api/v1"
 )
 
@@ -12,10 +13,12 @@ func InitRouter() *gin.Engine {
 
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(middleware.TokenAuthMiddleware())
 	r.Use(middleware.JSONMiddleware())
 	gin.SetMode(setting.RunMode)
 
 	apiv1 := r.Group("/api/v1")
+	apiOpen := r.Group("/api/open")
 
 	apiv1.GET("/tags", v1.GetTags)
 	apiv1.POST("/tags", v1.AddTag)
@@ -27,6 +30,9 @@ func InitRouter() *gin.Engine {
 	apiv1.POST("/article", v1.AddArticle)
 	apiv1.PUT("/article", v1.UpdateArticle)
 	apiv1.DELETE("/article/:id", v1.DeleteArticle)
+
+	apiOpen.POST("/user", open.CreateUser)
+	apiOpen.GET("/user/auth/:id", open.GetAuth)
 
 	return r
 }

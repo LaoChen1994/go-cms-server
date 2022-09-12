@@ -22,7 +22,7 @@ type Model struct {
 	DeletedAt *time.Time `gorm:"column:deleted_at" sql:"index" json:"deleted_at"`
 }
 
-func init() {
+func Init() {
 	conf := setting.DatabaseConf
 	var err error
 

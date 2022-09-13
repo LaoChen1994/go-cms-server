@@ -14,5 +14,5 @@ const (
 	ERROR_AUTH_TOKEN               = 20003
 	ERROR_AUTH                     = 20004
 
-	NOT_LOGIN = 30001
+	ERROR_USER = 30001
 )

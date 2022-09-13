@@ -31,6 +31,7 @@ func InitRouter() *gin.Engine {
 	apiv1.PUT("/article", v1.UpdateArticle)
 	apiv1.DELETE("/article/:id", v1.DeleteArticle)
 
+	apiOpen.POST("/user/login", open.RequestLogin)
 	apiOpen.POST("/user", open.CreateUser)
 	apiOpen.GET("/user/auth/:id", open.GetAuth)
 

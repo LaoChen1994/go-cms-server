@@ -1,9 +1,11 @@
+const Path = require('path')
+
 module.exports = {
   env: {
     browser: true,
     es2021: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: ['plugin:react/recommended', 'airbnb', "plugin:react/jsx-runtime"],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -14,8 +16,22 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   settings: {
+    "import/extensions": [".tsx", ".ts", ".js", ".scss", ".sass", ".css"],
     'import/resolver': {
       node: {
+        paths: ["src"],
+        extensions: [".tsx", ".ts", ".js", ".scss", ".sass", ".css"],
+      },
+      alias: {
+        map: [
+          ["Api/", ["./src/api/"]],
+          ["Common/", ["./src/common/"]],
+          ["Constant/", ["./src/constant/"]],
+          ["Hooks/", ["./src/hooks/"]],
+          ["Pages", [Path.resolve(__dirname, "./src/pages")]],
+          ["Utils/", ["./src/utils/"]],
+          ["Config/", ["./src/config/"]],
+        ],
         extensions: [".tsx", ".ts", ".js", ".scss", ".sass", ".css"],
       },
     },
@@ -38,5 +54,6 @@ module.exports = {
     "import/extensions": "off",
     "no-param-reassign": "off",
     "import/no-dynamic-require": "off",
+    "import/no-unresolved": "off",
   },
 };

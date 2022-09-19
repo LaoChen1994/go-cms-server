@@ -37,6 +37,12 @@
       ],
       "Utils/*": [
         "./src/utils/*"
+      ],
+      "Config/*": [
+        "./src/config/*"
+      ],
+      "Types/*": [
+        "./src/typings/*"
       ]
     }
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,

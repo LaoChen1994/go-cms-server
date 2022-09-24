@@ -7,7 +7,7 @@ import { ICreateConfiguration } from "./index";
 import {
   getDefaultTsRules,
   getDefaultFileRules,
-  getDefaultSassRulesAndPlugins,
+  getDefaultSassRulesAndPlugins, getDefaultLessRulesAndPlugins,
 } from "../utils/default";
 
 const createBaseConfig: ICreateConfiguration = async (env, config) => {
@@ -24,14 +24,17 @@ const createBaseConfig: ICreateConfiguration = async (env, config) => {
   config.target = ["web", "es5"];
 
   const { rules: tsRules } = getDefaultTsRules();
-  const { rules: lessRules, plugins: lessPlugins } = getDefaultSassRulesAndPlugins(isDev);
+  const { rules: sassRule, plugins: sassRulePlugins } = getDefaultSassRulesAndPlugins(isDev);
+  const { rules: lessRule, plugins: lessRulePlugins } = getDefaultLessRulesAndPlugins(isDev);
   const { rules: fileRules } = getDefaultFileRules();
 
     config.module!.rules?.push(...tsRules);
-    config.module!.rules?.push(...lessRules);
+    config.module!.rules?.push(...sassRule);
+    config.module?.rules?.push(...lessRule)
     config.module!.rules?.push(...fileRules);
 
-    config.plugins!.push(...lessPlugins);
+    config.plugins!.push(...sassRulePlugins);
+    config.plugins!.push(...lessRulePlugins)
 
     config.plugins!.push(
       new ProgressPlugin({

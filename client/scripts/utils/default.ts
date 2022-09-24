@@ -97,8 +97,6 @@ const getCssRule = (props: {
   ];
 };
 
-// @todo sass-loader 与 css module冲突问题
-// @todo 待修复
 export const getDefaultSassRulesAndPlugins = (isDev: boolean) => {
   const rules: Rules = [];
   const plugins: Plugins = [];
@@ -191,7 +189,6 @@ export const getDefaultLessRulesAndPlugins = (isDev: boolean) => {
 
   rules.push({
     test: /\.module\.less/i,
-    exclude: /node_modules/,
     use: [
       ...getCssRule({
         useModule: true,
@@ -204,7 +201,7 @@ export const getDefaultLessRulesAndPlugins = (isDev: boolean) => {
 
   rules.push({
     test: /\.less/,
-    exclude: [/\.module\.less/, /node_modules/],
+    exclude: [/\.module\.less/],
     use: [
       ...getCssRule({
         useModule: false,

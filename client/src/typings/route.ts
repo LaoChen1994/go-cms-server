@@ -1,10 +1,9 @@
-import type { createBrowserRouter } from 'react-router-dom'
+import type { ReactElement } from 'react'
 
-type ParamsType = Parameters<typeof createBrowserRouter>
-
-export interface IGetRoutes {
-    (): {
-        routes: ParamsType[0],
-        options?: ParamsType[1]
-    }
+export interface IMenumConfig {
+    title: string;
+    path?: string;
+    key?: string;
+    icon?: ReactElement;
+    children?: IMenumConfig[]
 }

@@ -1,22 +1,14 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Styles from './index.module.scss';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import routes from "Config/router";
 
 function App() {
-  const [count, setCount] = React.useState(0);
-
-  const add = () => {
-    setCount(count + 3);
-  };
+  const router = createBrowserRouter([routes])
 
   return (
-    <div className={Styles.base}>
-      {count}
-      <button onClick={add} type="button">
-        +1
-      </button>
-    </div>
-  );
+    <RouterProvider router={router} />
+  )
 }
 
+document.title = "皮蛋的CMS后台"
 createRoot(document.getElementById('app')!).render(<App />);

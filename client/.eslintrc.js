@@ -52,6 +52,7 @@ module.exports = {
     "import/no-import-module-exports": "off",
     "import/no-extraneous-dependencies": "off",
     "import/extensions": "off",
+    "react/function-component-definition": "off",
     "no-param-reassign": "off",
     "import/no-dynamic-require": "off",
     "import/no-unresolved": "off",

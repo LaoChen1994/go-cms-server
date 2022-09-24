@@ -1,0 +1,78 @@
+.sideBar {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: 18px;
+    line-height: 24px;
+    padding: 16px;
+    color: #99CCFF;
+    flex: 0 56px;
+
+    &.toggle {
+      padding: 0;
+      margin: 8px 12px;
+      font-size: 18px;
+    }
+  }
+
+  .menu {
+    flex: 0 1;
+
+    :global(.arco-menu-inner) {
+      height: 100%;
+    }
+
+    :global(.arco-layout-sider-children) {
+      display: flex;
+    }
+
+    .arco-menu:not(.arco-menu-collapse)::before {
+      content: '';
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      background-color: inherit;
+      box-shadow: -4px 0 2px var(--color-bg-2), 0 0 1px rgba(0, 0, 0, 0.3);
+      transform: translateX(50%);
+    }
+
+    .arco-menu-collapse {
+      height: auto;
+      padding-top: 24px;
+      padding-bottom: 138px;
+      border-radius: 22px;
+    }
+
+    .arco-menu-collapse-button {
+      right: 8px;
+      bottom: 8px;
+    }
+
+    .arco-menu-collapse-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+  }
+}
+
+.content {
+  background: #eee;
+}
+
+.header {
+  background: #fff;
+  padding: 16px;
+}
+
+.main {
+  padding: 16px;
+}

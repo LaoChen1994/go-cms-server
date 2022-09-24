@@ -17,7 +17,7 @@ func InitRouter() *gin.Engine {
 	r.Use(middleware.JSONMiddleware())
 	gin.SetMode(setting.RunMode)
 
-	apiv1 := r.Group("/api/v1")
+	apiv1 := r.Group("/api/cms")
 	apiOpen := r.Group("/api/open")
 
 	apiv1.GET("/tags", v1.GetTags)

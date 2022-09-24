@@ -1,3 +1,11 @@
+import useBreadcrumb from "Hooks/useBreadcrumb";
+
 export default function () {
-  return <div>Articles</div>
+  const breadCrumb = useBreadcrumb()
+  return (
+    <div>
+      {breadCrumb}
+      <div>Content</div>
+    </div>
+  )
 }

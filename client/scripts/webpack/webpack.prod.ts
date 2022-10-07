@@ -1,4 +1,4 @@
-import { Configuration, ids, DefinePlugin } from 'webpack'
+import { Configuration, ids } from 'webpack'
 import TerserPlugin from 'terser-webpack-plugin'
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import { ICreateConfiguration } from './index'
@@ -31,12 +31,6 @@ const createProdConfig: ICreateConfiguration = async (_, config) => {
   config.plugins?.push(
     new ids.DeterministicModuleIdsPlugin({
       maxLength: 5,
-    }),
-  )
-
-  config.plugins?.push(
-    new DefinePlugin({
-      nodeEnv: "production",
     }),
   )
 

@@ -56,5 +56,6 @@ module.exports = {
     "no-param-reassign": "off",
     "import/no-dynamic-require": "off",
     "import/no-unresolved": "off",
+    "react/jsx-props-no-spreading": "off",
   },
 };

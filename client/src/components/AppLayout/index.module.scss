@@ -75,4 +75,20 @@
 
 .main {
   padding: 16px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.layoutContent {
+  margin: 16px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #fff;
+  color: #323233;
+  box-sizing: border-box;
+  height: calc(100% - 88px);
+}
+
+.breadWrapper {
+  margin: 16px;
 }

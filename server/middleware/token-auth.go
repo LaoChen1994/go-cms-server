@@ -47,7 +47,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			Password: claims.Password,
 		}
 
-		isValid := models.IsValidUser(user)
+		isValid := models.IsValidUser(&user)
 
 		if !isValid {
 			c.JSON(e.INVALID_PARAMS, gin.H{

@@ -11,6 +11,7 @@ import (
 func InitRouter() *gin.Engine {
 	r := gin.New()
 
+	r.Use(middleware.Cors())
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
 	r.Use(middleware.TokenAuthMiddleware())
@@ -31,9 +32,16 @@ func InitRouter() *gin.Engine {
 	apiv1.PUT("/article", v1.UpdateArticle)
 	apiv1.DELETE("/article/:id", v1.DeleteArticle)
 
+	// 登录
 	apiOpen.POST("/user/login", open.RequestLogin)
+	// 创建token
 	apiOpen.POST("/user", open.CreateUser)
+	// 创建用户token
 	apiOpen.GET("/user/auth/:id", open.GetAuth)
+	// 确认用户登录并返回相关信息
+	apiOpen.GET("/user/auth", open.AuthByToken)
+	// 用户登出
+	apiOpen.POST("/user/loginout", open.RequestLoginout)
 
 	return r
 }

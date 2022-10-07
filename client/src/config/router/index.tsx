@@ -4,6 +4,7 @@ import NotFount from "Pages/common/NotFount";
 import article from './article'
 import overview from "./overview"
 import tag from './tag'
+import login from "./auth"
 
 const routes: RouteObject = {
   path: "/",
@@ -12,6 +13,7 @@ const routes: RouteObject = {
     ...overview,
     ...article,
     ...tag,
+    ...login,
     {
       path: "/*",
       element: <NotFount />,

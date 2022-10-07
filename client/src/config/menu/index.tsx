@@ -12,7 +12,7 @@ const menu: IMenumConfig[] = [
       {
         path: "/overview/cms",
         icon: <IconDashboard />,
-        title: "咨询工作台",
+        title: "工作台",
       },
     ],
   },

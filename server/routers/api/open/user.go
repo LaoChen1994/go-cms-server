@@ -68,5 +68,4 @@ func CreateUser(c *gin.Context) {
 	c.JSON(e.SUCCESS, gin.H{
 		"msg": e.GetMsg(e.SUCCESS),
 	})
-
 }

@@ -1,5 +1,10 @@
 package models
 
+import (
+	"errors"
+	"fmt"
+)
+
 type User struct {
 	Model
 	Mobile   string `gorm:"column:mobile" json:"mobile"`
@@ -12,6 +17,11 @@ type User struct {
 func CreateUser(user *User) (err error) {
 	err = nil
 
+	if isValidUserByName(user.Account) {
+		err = errors.New("已存在相同用户名用户创建失败")
+		return
+	}
+
 	if err = DB.Model(&User{}).Create(user).Error; err != nil {
 		return
 	}
@@ -19,8 +29,23 @@ func CreateUser(user *User) (err error) {
 	return
 }
 
-func IsValidUser(user User) bool {
-	DB.Model(&User{}).Omit("Mobile", "NickName", "Email").Where(user).First(&user)
+func IsValidUser(user *User) bool {
+	DB.Model(&User{}).Where(user).First(user)
+
+	if user.ID > 0 {
+		return true
+	}
+
+	return false
+}
+
+func isValidUserByName(account string) bool {
+	var user = User{
+		Account: account,
+	}
+	DB.Model(&User{}).Select("id").Where(&user).First(&user)
+
+	fmt.Println(user)
 
 	if user.ID > 0 {
 		return true

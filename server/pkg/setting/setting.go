@@ -26,7 +26,7 @@ var (
 	PageSize     int
 	JwtSecret    string
 	DatabaseConf *SqlConf
-	CorsAllow    []string
+	CorsAllow    string
 )
 
 func Init() {
@@ -75,8 +75,10 @@ func loadServer() {
 	}
 
 	HttpPort = app.Key("HTTP_PORT").MustInt(8000)
+	CorsAllow = app.Key("ALLOW_HOST").MustString("http://localhost:3000")
 	ReadTimeout = time.Duration(app.Key("READ_TIMEOUT").MustInt(8000)) * time.Second
 	WriteTimeout = time.Duration(app.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
+
 }
 
 func loadDatabase() {

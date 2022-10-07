@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 export default function () {
-  return <div>v1</div>
+  return <div>cms</div>
 }

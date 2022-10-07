@@ -1,8 +1,9 @@
 import Path from "path";
-import { ProgressPlugin, DllReferencePlugin } from "webpack";
+import { ProgressPlugin, DllReferencePlugin, DefinePlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import getEntries from "../utils/getEntries";
 import getResolves from "../utils/getResolves";
+// eslint-disable-next-line import/no-cycle
 import { ICreateConfiguration } from "./index";
 import {
   getDefaultTsRules,
@@ -48,6 +49,10 @@ const createBaseConfig: ICreateConfiguration = async (env, config) => {
         percentBy: null,
       }),
     );
+
+    config.plugins!.push(new DefinePlugin({
+      'process.env.START_ENV': JSON.stringify(isDev ? 'development' : 'production'),
+    }))
 
     config.plugins!.push(
       new HtmlWebpackPlugin({

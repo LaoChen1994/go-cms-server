@@ -1,4 +1,3 @@
-import { DefinePlugin } from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import Path from 'path'
 // eslint-disable-next-line import/no-cycle
@@ -15,13 +14,6 @@ const createDevConfig: ICreateConfiguration = async (env, config) => {
     historyApiFallback: true,
   }
 
-  config.plugins?.push(
-    new DefinePlugin({
-      nodeEnv: "development",
-    }),
-  )
-
-  // config.plugins?.push(new HotModuleReplacementPlugin())
   config.plugins?.push(new HtmlWebpackPlugin({
     template: Path.resolve(__dirname, "../../public/index.html"),
   }))

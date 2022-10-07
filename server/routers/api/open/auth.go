@@ -68,7 +68,7 @@ func RequestLogin(c *gin.Context) {
 	passwd := util.MD5Cypto(body["password"].(string))
 	account := body["account"].(string)
 
-	isValid := models.IsValidUser(models.User{
+	isValid := models.IsValidUser(&models.User{
 		Password: passwd,
 		Account:  account,
 	})
@@ -90,11 +90,90 @@ func RequestLogin(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(c.GetHeader("host"))
-
-	c.SetCookie("auth_token", token, 7*3600, "", "127.0.0.1", true, true)
+	c.SetSameSite(http.SameSiteNoneMode)
+	c.SetCookie("auth_token", token, 7*3600*24, "/", "", true, true)
 
 	c.JSON(http.StatusOK, gin.H{
 		"msg": e.GetMsg(e.SUCCESS),
 	})
+}
+
+func AuthByToken(c *gin.Context) {
+	token, err := c.Cookie("auth_token")
+
+	if err != nil {
+		c.JSON(e.INTERNAL_ERROR, gin.H{
+			"msg":  "无法获取token",
+			"code": e.ERROR_AUTH_CHECK_TOKEN_FAIL,
+		})
+
+		c.Abort()
+		return
+	}
+
+	claims, jwtError := jwt.ParseToken(token)
+
+	if jwtError != nil {
+		fmt.Println(jwtError.Error())
+		c.JSON(e.INTERNAL_ERROR, gin.H{
+			"data": e.ERROR_AUTH_TOKEN,
+			"msg":  e.GetMsg(e.ERROR_AUTH_TOKEN),
+		})
+
+		c.Abort()
+		return
+	}
+
+	user := models.User{
+		Account:  claims.Account,
+		Password: claims.Password,
+	}
+
+	isValid := models.IsValidUser(&user)
+
+	if isValid {
+		c.JSON(e.SUCCESS, gin.H{
+			"code": e.SUCCESS,
+			"data": map[string]interface{}{
+				"name":   user.NickName,
+				"id":     user.ID,
+				"email":  user.Email,
+				"mobile": user.Mobile,
+			},
+		})
+	} else {
+		c.JSON(e.INVALID_PARAMS, gin.H{
+			"code": e.ERROR_USER,
+			"msg":  "无效用户",
+		})
+	}
+}
+
+func RequestLoginout(c *gin.Context) {
+	_, err := c.Cookie("auth_token")
+	if err != nil {
+		c.JSON(200, gin.H{
+			"msg": "未登录",
+		})
+		c.Abort()
+
+		return
+	}
+
+	c.SetSameSite(http.SameSiteNoneMode)
+
+	c.SetCookie(
+		"auth_token",
+		"", -1,
+		"/",
+		"",
+		true,
+		true,
+	)
+
+	c.JSON(200, gin.H{
+		"msg": "已退出登录",
+	})
+	c.Abort()
+
 }

@@ -7,19 +7,23 @@ import { useEffect, useState } from "react";
 import { format, parse } from 'url'
 import { getConfig } from "Utils/index";
 
-interface IRequestOptios<D> extends Omit<AxiosRequestConfig<D>, "url"> {
+interface IRequestOptios<D, T> extends Omit<AxiosRequestConfig<D>, "url"> {
   auto?: boolean
   throttle?: boolean
   debounce?: boolean
+  format?: (data: T) => unknown
 }
 
-export default function <D, T = any> (url: string, options?: IRequestOptios<D>) {
+export default function <D = any, T = any> (
+  url: string,
+  options?: IRequestOptios<D, T>,
+) {
+  const { auto = false } = options || {}
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const [data, setData] = useState<T>({} as T)
-  const { auto = false } = options || {}
+  const [data, setData] = useState<T | null>(null)
 
-  const wrapperRequest = async (args?: D) => {
+  const wrapperRequest = async (args?: D): Promise<T> => {
     const requestOptions = omit(options, ["auto", "throttle", "debounce"])
     setLoading(true)
     let requestUrl = url;
@@ -41,7 +45,7 @@ export default function <D, T = any> (url: string, options?: IRequestOptios<D>) 
           ...(requestOptions.data || {}),
           ...(args || {}),
         },
-      });
+      }) as T;
 
       setData(rlt)
       setLoading(false)
@@ -52,6 +56,8 @@ export default function <D, T = any> (url: string, options?: IRequestOptios<D>) 
     } finally {
       setLoading(false)
     }
+
+    return {} as T
   }
 
   useEffect(() => {

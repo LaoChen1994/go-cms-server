@@ -12,7 +12,7 @@ type Article struct {
 	Desc      string `gorm:"desc" json:"desc"`
 	Content   string `gorm:"content" json:"content"`
 	State     uint   `gorm:"state" json:"state"`
-	CreatedId uint   `gorm:"created_id" json:"created_id"`
+	CreatedId uint   `gorm:"created_id" json:"createdId"`
 }
 
 type ArticleWithTags struct {

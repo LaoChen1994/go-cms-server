@@ -9,8 +9,8 @@ type Tag struct {
 	Model
 	ID        uint   `gorm:"primary key" gorm:"column id" json:"id"`
 	Name      string `gorm:"column:name" json:"name"`
-	ParentId  int    `gorm:"column:parent_id" json:"parent_id"`
-	CreatedId uint   `gorm:"column:created_id" json:"created_id" `
+	ParentId  int    `gorm:"column:parent_id" json:"parentId"`
+	CreatedId uint   `gorm:"column:created_id" json:"createdId" `
 	State     uint   `gorm:"column:state" json:"state"`
 }
 

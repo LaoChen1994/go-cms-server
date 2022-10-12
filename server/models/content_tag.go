@@ -7,9 +7,9 @@ import (
 
 type ContentTag struct {
 	Model
-	ContentId int64 `gorm:"column:content_id" json:"content_id" gorm:"index"`
-	TagId     int64 `gorm:"column:tag_id" json:"tag_id" gorm:"index"`
-	CreatedId uint  `gorm:"column:created_id" json:"created_id"`
+	ContentId int64 `gorm:"column:content_id" json:"contentId" gorm:"index"`
+	TagId     int64 `gorm:"column:tag_id" json:"tagId" gorm:"index"`
+	CreatedId uint  `gorm:"column:created_id" json:"createdId"`
 }
 
 func (*ContentTag) TableName() string {

@@ -4,13 +4,9 @@ import (
 	"reflect"
 )
 
-func Map(data interface{}, fn interface{}) (results []interface{}) {
-	vfn := reflect.ValueOf(fn).Elem()
-	vdata := reflect.ValueOf(data)
-
-	for i := 0; i < vdata.Len(); i++ {
-		param := []reflect.Value{vdata.Index(i), reflect.ValueOf(i)}
-		results = append(results, vfn.Call(param))
+func Map[T comparable, K comparable](data []K, fn func(i int32, v K) T) (results []T) {
+	for i := 0; i < len(data); i++ {
+		results = append(results, fn(int32(i), data[i]))
 	}
 
 	return

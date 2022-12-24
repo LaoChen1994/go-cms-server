@@ -54,6 +54,8 @@ func GetArticles(limit int, offset int, query map[string]interface{}) (data []Ar
 
 	res := DB.Model(&Article{}).Offset(offset).Limit(limit).Where(query).Omit("Content", "UpdatedAt", "DeletedAt").Order(orderStr).Find(&articles)
 
+	fmt.Println(res)
+
 	if err = res.Error; err != nil {
 		return
 	}

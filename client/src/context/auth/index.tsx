@@ -4,6 +4,7 @@ import {
 } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
 import useRequest from "Hooks/useRequest";
+import { isEmpty } from "lodash";
 import { IUserInfo } from './interface'
 
 export class Auth {
@@ -65,6 +66,7 @@ export const useAuth = () => {
   const syncAuth = async () => {
     const isLoginPage = location.pathname.includes("login")
     let loading = false
+
     if (status.id && isLoginPage) {
       navigate("/")
       return
@@ -81,7 +83,7 @@ export const useAuth = () => {
       requestCache = null
     }
 
-    if (userInfo) {
+    if (userInfo && !isEmpty(userInfo)) {
       status.setUserInfo(userInfo)
       if (isLoginPage) {
         navigate("/")
@@ -92,6 +94,8 @@ export const useAuth = () => {
     if (isLoginPage) {
       return
     }
+
+    console.log('no user')
 
     status.setUserInfo(null)
     navigate("/login")

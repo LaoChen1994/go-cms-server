@@ -73,6 +73,7 @@
   "dependencies": {
     "@arco-design/web-react": "^2.39.3",
     "@babel/runtime": "^7.18.9",
+    "@uiw/react-md-editor": "^3.20.1",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
     "core-js": "^3.24.1",

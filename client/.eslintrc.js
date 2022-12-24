@@ -43,6 +43,7 @@ module.exports = {
         extensions: ['.tsx', '.jsx', '.js'],
       },
     ],
+    'react/prop-types': 'off',
     semi: "off",
     quotes: "off",
     "no-use-before-define": "off",

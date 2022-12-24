@@ -32,7 +32,6 @@ export default function () {
 
   useEffect(() => {
     if (!auth.id) {
-      console.log("app context =>")
       syncAuth()
     }
   }, [])

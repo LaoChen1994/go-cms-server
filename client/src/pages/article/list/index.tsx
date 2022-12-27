@@ -79,7 +79,7 @@ export default function () {
   }, [])
 
   const handleCreate = useCallback(() => {
-    navigate('/')
+    navigate('/article')
   }, [])
 
   return (
